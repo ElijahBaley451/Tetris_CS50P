@@ -1,24 +1,28 @@
-import pygame
+import pygame, sys
+from classes import Grid
 
 def main():
-    pygame.init()
-    screen = pygame.display.set_mode((1280, 720))
-    clock = pygame.time.Clock()
-    running = True
+    pygame.init() # engine initialization
+    screen = pygame.display.set_mode((300, 600)) # game screen resolution
+    pygame.display.set_caption("Tetris CS50P")
+    
+    clock = pygame.time.Clock() # game clock, by which we choose refresh rate
 
-    while running:
+    game_grid = Grid()
+    game_grid.print_grid()
+
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
 
-        screen.fill("purple")
+        screen.fill("black")
+        game_grid.draw(screen)
 
-        pygame.display.flip()
+        pygame.display.update()
 
         clock.tick(60)
-
-    pygame.quit()
-
 
 def function_1():
     ...
