@@ -1,5 +1,7 @@
 import pygame
 
+
+# class which stores 8 colors of shapes in dict
 class Colors:
 
     @classmethod
@@ -16,24 +18,30 @@ class Colors:
             }
     
 
+# class for grid generation in game display
 class Grid:
     def __init__(self):
-        self.num_rows = 20 # number of table rows
-        self.num_col = 10 # number od table columns
-        self.cell_size = 30 # size of cell wall
+        # number of table rows
+        self.num_rows = 20 
+        # number od table columns
+        self.num_col = 10 
+        # size of cell wall
+        self.cell_size = 30 
         # list comprehension for grid generation
         self.grid = [[0 for col in range(self.num_col)] for row in range(self.num_rows)]
         self.colors = Colors.get_color()
 
+    # just for testing
     def print(self):
         return print(self.grid) 
     
+    # main function for grid draw
     def draw(self, surface):
         for row in range(self.num_rows):
             for column in range(self.num_col):
-                # variable for coordinates of actually procesed cell
+                # variable for color of the cell - which is zero, which indicates dark grey from Colors
                 cell_value = self.grid[row][column]
-                #
+                # variable for grid and squares generation - +/- for grid visibility
                 cell_rect = pygame.Rect(
                     column*self.cell_size +1, 
                     row*self.cell_size +1,
@@ -41,3 +49,33 @@ class Grid:
                     self.cell_size -1
                 )
                 pygame.draw.rect(surface, self.colors[cell_value], cell_rect)
+
+# simple class which will hold tile coordinates on grid
+class Position:
+    def __init__(self, row, column):
+        self.row = row
+        self.column = column
+
+# parent class for block generation
+class Block:
+    def __init__(self, id):
+        # by id color of block will be chosen
+        self.id = id
+        # 
+        self.cells = {}
+        self.cell_size = 30
+        self.rotation_state = 0
+        self.colors = Colors.get_color()
+
+    def draw(self, surface):
+        tiles = self.cells[self.rotation_state]
+        for tile in tiles:
+            
+            tile_rect = pygame.Rect(
+                tile.row * self.cell_size + 1,
+                tile.column * self.cell_size + 1,
+                self.cell_size -1,
+                self.cell_size -1
+                )
+            pygame.draw.rect(surface, self.colors[self.id], tile_rect)
+            

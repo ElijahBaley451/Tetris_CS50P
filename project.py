@@ -1,5 +1,6 @@
 import pygame, sys
 from classes import Grid
+from shapes import *
 
 
 def main():
@@ -10,7 +11,8 @@ def main():
     clock = pygame.time.Clock()
 
     game_grid = Grid()
-    
+    block = Square()
+
 
     # main loop of game with event menagement
     while True:
@@ -23,6 +25,7 @@ def main():
         pygame.display.update()
         screen.fill("black")
         game_grid.draw(screen)
+        block.draw(screen)
         clock.tick(60)
 
 
