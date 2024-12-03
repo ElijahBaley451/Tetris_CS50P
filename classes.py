@@ -1,4 +1,5 @@
 import pygame
+from dataclasses import dataclass
 
 
 # class which stores 8 colors of shapes in dict
@@ -51,15 +52,15 @@ class Grid:
                 pygame.draw.rect(surface, self.colors[cell_value], cell_rect)
 
 # simple class which will hold tile coordinates on grid
+@dataclass
 class Position:
-    def __init__(self, row, column):
-        self.row = row
-        self.column = column
+        row: int
+        column: int
 
 # parent class for block generation
 class Block:
     def __init__(self, id):
-        # by id color of block will be chosen
+        # by id value color of block will be chosen
         self.id = id
         # 
         self.cells = {}

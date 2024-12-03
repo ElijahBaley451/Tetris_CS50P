@@ -11,7 +11,7 @@ def main():
     clock = pygame.time.Clock()
 
     game_grid = Grid()
-    block = Square()
+    block = TBlock()
 
 
     # main loop of game with event menagement
