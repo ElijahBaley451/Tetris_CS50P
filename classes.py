@@ -37,6 +37,12 @@ class Grid:
     def print(self):
         return print(self.grid) 
     
+    def check_inside(self, row, column):
+        if row >= 0 and row < self.num_rows and column >= 0 and column < self.num_col:
+            return True
+        else:
+            return False
+
     # main function for grid draw
     def draw(self, surface):
         for row in range(self.num_rows):
@@ -74,7 +80,7 @@ class Block:
         self.rotation_state = 0
         self.colors = Colors.get_color()
         # to spawn block in the middle of top wall, block is moved
-        self.move(4,0)
+        self.move(0, 4)
 
     def move(self, rows, columns):
         self.row_offset += rows
@@ -95,8 +101,8 @@ class Block:
         tiles = self.get_cell_positions()
         for tile in tiles:
             tile_rect = pygame.Rect(
-                tile.row * self.cell_size + 1,
                 tile.column * self.cell_size + 1,
+                tile.row * self.cell_size + 1,
                 self.cell_size -1,
                 self.cell_size -1
                 )

@@ -16,3 +16,26 @@ class Game:
     def draw(self, surface):
         self.grid.draw(surface)
         self.current_block.draw(surface)
+
+    def move_left(self):
+        self.current_block.move(0, -1)
+        if self.inside() == False:
+            self.current_block.move(0, 1)
+
+    def move_right(self):
+        self.current_block.move(0, 1)
+        if self.inside() == False:
+            self.current_block.move(0, -1)
+
+    def move_down(self):
+        self.current_block.move(1, 0)
+        if self.inside() == False:
+            self.current_block.move(-1, 0)
+
+    def inside(self):
+        tiles = self.current_block.get_cell_positions()
+        for tile in tiles:
+            if self.grid.check_inside(tile.row, tile.column) == False:
+                return False
+            else: 
+                return True
