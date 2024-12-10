@@ -1,5 +1,6 @@
 from shapes import *
-from classes import *
+from block import *
+from grid import Grid
 import random
 
 class Game:
@@ -37,5 +38,4 @@ class Game:
         for tile in tiles:
             if self.grid.check_inside(tile.row, tile.column) == False:
                 return False
-            else: 
-                return True
+        return True
