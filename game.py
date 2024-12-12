@@ -49,15 +49,34 @@ class Game:
         if self.inside() == False:
             self.current_block.move(0, 1)
 
+
     def move_right(self):
         self.current_block.move(0, 1)
         if self.inside() == False:
             self.current_block.move(0, -1)
 
+
     def move_down(self):
         self.current_block.move(1, 0)
         if self.inside() == False:
             self.current_block.move(-1, 0)
+
+
+    # Method for rotating block. Each time when block is rotated
+    # rotation_state is incrementing. To prevent overclocking of rotation_state
+    # there is bool to check if rotation_state whether rotation_state is not greater than the length of the dictionary
+    def rotate_block(self):
+        if self.current_block.rotation_state == len(self.current_block.cells) - 1:
+            self.current_block.rotation_state = 0
+        else:
+            self.current_block.rotation_state += 1
+
+        if self.inside() == False:
+            if self.current_block.rotation_state == 0:
+                self.current_block.rotation_state = len(self.current_block.cells) - 1
+            else:
+                self.current_block.rotation_state -= 1
+        
 
     # method which check, if block after move is still oinside game grid
     def inside(self):

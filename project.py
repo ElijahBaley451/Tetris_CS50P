@@ -26,6 +26,8 @@ def main():
                     game.move_right()
                 if event.key == pygame.K_DOWN:
                     game.move_down()
+                if event.key == pygame.K_SPACE:
+                    game.rotate_block()
 
         # Basic screen logic
         screen.fill("black")
