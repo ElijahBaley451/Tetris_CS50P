@@ -42,7 +42,7 @@ class Game:
         return block"""
 
     def random_block(self):
-        if len(self.blocks) == 0:
+        """if len(self.blocks) == 0:
             self.blocks = [
             IBlock(),
             OBlock(),
@@ -55,6 +55,9 @@ class Game:
 
         block = random.choice(self.blocks)
         self.blocks.remove(block)
+        return block"""
+
+        block = random.choice(self.blocks)
         return block
 
 
