@@ -13,6 +13,9 @@ def main():
 
     game = Game()
 
+    GAME_UPDATE = pygame.USEREVENT
+    pygame.time.set_timer(GAME_UPDATE, 300)
+
     # main loop of game with event menagement
     while True:
         for event in pygame.event.get():
@@ -28,6 +31,9 @@ def main():
                     game.move_down()
                 if event.key == pygame.K_SPACE:
                     game.rotate_block()
+            if event.type == GAME_UPDATE:
+                game.move_down()
+
 
         # Basic screen logic
         screen.fill("black")
