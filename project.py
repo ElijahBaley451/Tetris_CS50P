@@ -22,7 +22,9 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            if game.game_over == True:
+                game.reset_game()
+            if event.type == pygame.KEYDOWN and game.game_over == False:
                 if event.key == pygame.K_LEFT:
                     game.move_left()
                 if event.key == pygame.K_RIGHT:
@@ -31,8 +33,9 @@ def main():
                     game.move_down()
                 if event.key == pygame.K_SPACE:
                     game.rotate_block()
-            if event.type == GAME_UPDATE:
+            if event.type == GAME_UPDATE and game.game_over == False:
                 game.move_down()
+
 
 
         # Basic screen logic

@@ -6,9 +6,7 @@ from shapes import *
 from block import *
 from grid import Grid
 import random
-from random import randint
 
-chosen_numbers = []
 
 class Game:
     """
@@ -16,49 +14,29 @@ class Game:
     list blocks hold imported blocks
     current_block and next_block hold randomly selected block from blocks
     """
-
+    # WARNING - SELF.BLOCKS HOLDS PROTOTYPES, NOT OBJECT CONSTRUCTORS
+    # it prevents operational errors of interpreter garbage collector
     def __init__(self):
         self.grid = Grid()
         self.blocks = [
-            IBlock(),
-            OBlock(),
-            TBlock(),
-            JBlock(),
-            LBlock(),
-            SBlock(),
-            ZBlock(),
+            IBlock,
+            OBlock,
+            TBlock,
+            JBlock,
+            LBlock,
+            SBlock,
+            ZBlock,
         ]
-        print("First generated blocks")
         self.current_block = self.random_block()
         self.next_block = self.random_block()
+        self.game_over = False
+
 
     # method for generating random block from blocks list
-    """def random_block(self):
-        ind = randint(0, 6)
-        print(ind)
-        chosen_numbers.append(ind)
-        print(chosen_numbers)
-        block = blocks[ind]
-        return block"""
-
+    # program calls prototype from self.blocks, and initiate construction on return
+    # to avoid problem with selecting an already called object
     def random_block(self):
-        """if len(self.blocks) == 0:
-            self.blocks = [
-            IBlock(),
-            OBlock(),
-            TBlock(),
-            JBlock(),
-            LBlock(),
-            SBlock(),
-            ZBlock(),
-        ]
-
-        block = random.choice(self.blocks)
-        self.blocks.remove(block)
-        return block"""
-
-        block = random.choice(self.blocks)
-        return block
+        return random.choice(self.blocks)()
 
 
     # method which draws selected by current_block method block on grid
@@ -67,11 +45,13 @@ class Game:
         self.current_block.draw(surface)
 
 
-    # methods for moving block on grid
-    # move method is used on current block. Arguments for move method
-    # corresponds to movements on the grid
-    # each movement of a block means checking whether the block has not moved beyond the limits, by inside method
-    # if the block moves outside the grid, the movement is reversed
+    """
+    methods for moving block on grid. Arguments for move method
+    corresponds to movements on the grid. Each movement of a block means checking whether 
+    the block has not moved beyond the grid limits, by inside method.
+    If the block moves outside the grid, the movement is reversed. block_collision checks
+    whether block hits another block or not
+    """
     def move_left(self):
         self.current_block.move(0, -1)
         if self.inside() == False or self.block_collision() == False:
@@ -84,6 +64,8 @@ class Game:
             self.current_block.move(0, -1)
 
 
+    # move_down method has emplemented logic for locking block in position, after it
+    # bootom or another locked block
     def move_down(self):
         self.current_block.move(1, 0)
         if self.inside() == False or self.block_collision() == False:
@@ -91,17 +73,21 @@ class Game:
             self.lock_block()
 
 
+    # if block_collision return false, block is locked in position
+    # grid tiles values matching with block position, take on values of block id
     def lock_block(self):
         tiles = self.current_block.get_cell_positions()
         for position in tiles:
             self.grid.grid[position.row][position.column] = self.current_block.id
-        print("next blok staje sie current blokiem")
         self.current_block = self.next_block
-        print("generowanie kolejnego bloku")
         self.next_block = self.random_block()
         self.grid.clear_row()
+        if self.block_collision() == False:
+            self.game_over = True
 
     
+    # This method checks, if grid tiles matching with block position are empty
+    # via check_empty method from Grid class
     def block_collision(self):
         tiles = self.current_block.get_cell_positions()
         for tile in tiles:
@@ -126,11 +112,18 @@ class Game:
                 self.current_block.rotation_state -= 1
         
 
-    # method which check, if block after move is still oinside game grid
+    # method which check, if block after move is still inside game grid
     def inside(self):
-        # every tile from
         tiles = self.current_block.get_cell_positions()
         for tile in tiles:
             if self.grid.check_inside(tile.row, tile.column) == False:
                 return False
         return True
+    
+    # method which resets grid, generated blocks and flag game_over
+    # when called in game loop, after losing
+    def reset_game(self):
+        self.grid = Grid()
+        self.game_over = False
+        self.current_block = self.random_block()
+        self.next_block = self.random_block()
