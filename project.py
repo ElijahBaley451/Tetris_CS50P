@@ -2,12 +2,24 @@ import pygame
 import sys
 from shapes import *
 from game import Game
+from colors import Colors
 
 
 def main():
     pygame.init()
 
-    screen = pygame.display.set_mode((480, 640))
+    screen = pygame.display.set_mode((480, 620))
+
+    main_font = pygame.font.Font("joystix_monospace.otf", 18)
+    small_font = pygame.font.Font("joystix_monospace.otf", 8)
+
+    score_text = main_font.render("Score", True, Colors.get_color()[8])
+    score_rect = pygame.Rect(327, 50, 120, 50)
+
+    next_block_text = main_font.render("Next Block", True, Colors.get_color()[8])
+    next_block_rect = pygame.Rect(317, 280, 150, 150)
+
+    game_over_text = main_font.render("Game Over", True, Colors.get_color()[8])
 
     clock = pygame.time.Clock()
 
@@ -23,7 +35,9 @@ def main():
                 pygame.quit()
                 sys.exit()
             if game.game_over == True:
-                game.reset_game()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        game.reset_game()
             if event.type == pygame.KEYDOWN and game.game_over == False:
                 if event.key == pygame.K_LEFT:
                     game.move_left()
@@ -40,6 +54,15 @@ def main():
 
         # Basic screen logic
         screen.fill("black")
+        screen.blit(score_text, (350, 20, 50, 50))
+        screen.blit(next_block_text, (318, 250, 50, 50))
+
+        #if game.game_over == True:
+        screen.blit(game_over_text, (320, 470, 50, 50))
+
+        pygame.draw.rect(screen, Colors.get_color()[9], score_rect, 0, 10)
+
+        pygame.draw.rect(screen, Colors.get_color()[9], next_block_rect, 0, 10)
         game.draw(screen)
 
         pygame.display.update()

@@ -57,6 +57,7 @@ class Grid:
                 self.row_down(row, completed)
         return completed
 
+
     # main function for grid draw
     def draw(self, surface):
         for row in range(self.num_rows):
