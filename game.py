@@ -30,7 +30,11 @@ class Game:
         self.current_block = self.random_block()
         self.next_block = self.random_block()
         self.game_over = False
+        self.score = 0
 
+
+    def score_update(self, rows_cleared):
+        self.score += (100 * rows_cleared) * rows_cleared
 
     # method for generating random block from blocks list
     # program calls prototype from self.blocks, and initiate construction on return
@@ -81,7 +85,8 @@ class Game:
             self.grid.grid[position.row][position.column] = self.current_block.id
         self.current_block = self.next_block
         self.next_block = self.random_block()
-        self.grid.clear_row()
+        points = self.grid.clear_row()
+        self.score_update(points)
         if self.block_collision() == False:
             self.game_over = True
 

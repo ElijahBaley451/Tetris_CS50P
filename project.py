@@ -24,6 +24,7 @@ def main():
     clock = pygame.time.Clock()
 
     game = Game()
+    
 
     GAME_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(GAME_UPDATE, 300)
@@ -50,19 +51,22 @@ def main():
             if event.type == GAME_UPDATE and game.game_over == False:
                 game.move_down()
 
-
+        score_counter = main_font.render(f"{game.score}", True, Colors.get_color()[8])
 
         # Basic screen logic
         screen.fill("black")
         screen.blit(score_text, (350, 20, 50, 50))
         screen.blit(next_block_text, (318, 250, 50, 50))
+        
 
-        #if game.game_over == True:
-        screen.blit(game_over_text, (320, 470, 50, 50))
+        if game.game_over == True:
+            screen.blit(game_over_text, (320, 470, 50, 50))
 
         pygame.draw.rect(screen, Colors.get_color()[9], score_rect, 0, 10)
 
         pygame.draw.rect(screen, Colors.get_color()[9], next_block_rect, 0, 10)
+
+        screen.blit(score_counter, (335, 63, 50, 50))
         game.draw(screen)
 
         pygame.display.update()
