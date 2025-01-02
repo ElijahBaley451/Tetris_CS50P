@@ -1,5 +1,4 @@
-import pygame
-import sys
+import pygame, sys
 from shapes import *
 from game import Game
 from colors import Colors
@@ -10,19 +9,23 @@ def main():
     # game engine initialization
     pygame.init()
 
+
     screen = pygame.display.set_mode((480, 620))
+
 
     # fonts for game labels
     main_font = pygame.font.Font("joystix_monospace.otf", 18)
-    small_font = pygame.font.Font("joystix_monospace.otf", 8)
+
 
     # variables related with score displaying
     score_text = main_font.render("Score", True, Colors.get_color()[8])
     score_rect = pygame.Rect(327, 50, 120, 50)
 
+
     # variables related to next block hint renndering
     next_block_text = main_font.render("Next Block", True, Colors.get_color()[8])
     next_block_rect = pygame.Rect(317, 280, 150, 150)
+
 
     # variable related top rendering game over
     game_over_text = main_font.render("Game Over", True, Colors.get_color()[8])
@@ -32,13 +35,14 @@ def main():
     clock = pygame.time.Clock()
 
     # game constructor
-    game = Game()
+    game = main_constructor()
     
 
     # user event with timer. timer acts as counter which allows 
     # the block's downward movement at regular intervals
     GAME_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(GAME_UPDATE, 300)
+
 
     # main loop of game with event menagement
     while True:
@@ -51,7 +55,8 @@ def main():
                     if event.key == pygame.K_RETURN:
                         game.reset_game()
 
-            # key mapping used forf playing game
+
+            # key mapping used for playing game
             if event.type == pygame.KEYDOWN and game.game_over == False:
                 if event.key == pygame.K_LEFT:
                     game.move_left()
@@ -66,7 +71,7 @@ def main():
 
 
         # Basic user interface logic
-        # variable for score holding and rendereing
+        # variable for score holding and rendering
         score_counter = main_font.render(f"{game.score}", True, Colors.get_color()[8])
 
 
@@ -105,8 +110,8 @@ def main():
         clock.tick(60)
 
 
-def function_1(): ...
-
+def main_constructor():
+    return Game()
 
 def function_2(): ...
 
